@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RicepesConfig(AppConfig):
-    name = 'ricepes'
+class RecipesConfig(AppConfig):
+    name = 'recipes'
     verbose_name = 'рецепты'
