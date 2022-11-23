@@ -5,8 +5,8 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from recipes.models import Ingredient, Ingredient_amount, Recipes, Tag  # isort:skip
-from users.models import Follow  # isort:skip
+from recipes.models import Ingredient, Ingredient_amount, Recipes, Tag  
+from users.models import Follow  
 
 User = get_user_model()
 
@@ -76,15 +76,15 @@ class RecipeReadSerializer(serializers.ModelSerializer):
         model = Recipes
         fields = (
             'id',
-            'tags',
+            'tag',
             'author',
             'ingredients',
-            'is_favorited',
-            'is_in_shopping_cart',
             'name',
             'image',
             'text',
             'cooking_time',
+            'is_favorited',
+            'is_in_shopping_cart'
         )
 
     def get_ingredients(self, obj):
@@ -205,3 +205,4 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def get_recipes_count(self, obj):
         return Recipes.objects.filter(author=obj.author).count()
+    
