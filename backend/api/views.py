@@ -3,7 +3,7 @@ from django.db.models import BooleanField, Exists, OuterRef, Value
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
-from recipes.models import Shopping_cart, Favorite, Ingredient, Recipes, Tag
+from recipes.models import Cart, Favorite, Ingredient, Recipe, Tag
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
@@ -88,7 +88,7 @@ class FollowViewSet(UserViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    queryset = Recipes.objects.all()
+    queryset = Recipe.objects.all()
     pagination_class = LimitPageNumberPagination
     filter_class = TagFavoritShopingFilter
     permission_classes = [AdminUserOrReadOnly]
@@ -103,14 +103,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Recipes.objects.all()
+        queryset = Recipe.objects.all()
 
         if user.is_authenticated:
             queryset = queryset.annotate(
                 is_favorited=Exists(Favorite.objects.filter(
                     user=user, recipe__pk=OuterRef('pk'))
                 ),
-                is_in_shopping_cart=Exists(Shopping_cart.objects.filter(
+                is_in_shopping_cart=Exists(Cart.objects.filter(
                     user=user, recipe__pk=OuterRef('pk'))
                 )
             )
@@ -133,18 +133,18 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'],
             permission_classes=[IsAuthenticated])
     def shopping_cart(self, request, pk=None):
-        return self.add_obj(Shopping_cart, request.user, pk)
+        return self.add_obj(Cart, request.user, pk)
 
     @shopping_cart.mapping.delete
     def del_from_shopping_cart(self, request, pk=None):
-        return self.delete_obj(Shopping_cart, request.user, pk)
+        return self.delete_obj(Cart, request.user, pk)
 
     def add_obj(self, model, user, pk):
         if model.objects.filter(user=user, recipe__id=pk).exists():
             return Response({
                 'errors': 'Ошибка добавления рецепта в список'
             }, status=status.HTTP_400_BAD_REQUEST)
-        recipe = get_object_or_404(Recipes, id=pk)
+        recipe = get_object_or_404(Recipe, id=pk)
         model.objects.create(user=user, recipe=recipe)
         serializer = ShortRecipeSerializer(recipe)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

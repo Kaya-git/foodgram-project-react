@@ -5,8 +5,8 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from recipes.models import Ingredient, Ingredient_amount, Recipes, Tag  
-from users.models import Follow  
+from recipes.models import Ingredient, IngredientAmount, Recipe, Tag
+from users.models import Follow
 
 User = get_user_model()
 
@@ -73,18 +73,18 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     is_in_shopping_cart = serializers.BooleanField(default=False)
 
     class Meta:
-        model = Recipes
+        model = Recipe
         fields = (
             'id',
-            'tag',
+            'tags',
             'author',
             'ingredients',
+            'is_favorited',
+            'is_in_shopping_cart',
             'name',
             'image',
             'text',
             'cooking_time',
-            'is_favorited',
-            'is_in_shopping_cart'
         )
 
     def get_ingredients(self, obj):
@@ -99,7 +99,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
 
     class Meta:
-        model = Recipes
+        model = Recipe
         fields = (
             'tags',
             'ingredients',
@@ -143,7 +143,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             instance.tags.add(tag)
 
         for ingredient in ingredients:
-            Ingredient_amount.objects.create(
+            IngredientAmount.objects.create(
                 recipe=instance,
                 ingredients_id=ingredient.get('id'),
                 amount=ingredient.get('amount'))
@@ -170,7 +170,7 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
 
     class Meta:
-        model = Recipes
+        model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
         read_only_fields = ('id', 'name', 'image', 'cooking_time')
 
@@ -198,11 +198,10 @@ class FollowSerializer(serializers.ModelSerializer):
     def get_recipes(self, obj):
         request = self.context.get('request')
         limit = request.GET.get('recipes_limit')
-        queryset = Recipes.objects.filter(author=obj.author)
+        queryset = Recipe.objects.filter(author=obj.author)
         if limit:
             queryset = queryset[:int(limit)]
         return ShortRecipeSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
-        return Recipes.objects.filter(author=obj.author).count()
-    
+        return Recipe.objects.filter(author=obj.author).count()

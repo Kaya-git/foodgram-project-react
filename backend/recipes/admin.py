@@ -1,6 +1,6 @@
 from django.contrib.admin import ModelAdmin, register
 
-from .models import Tag, Ingredient, Recipes, Ingredient_amount, Shopping_cart, Favorite
+from .models import Cart, Favorite, Ingredient, IngredientAmount, Recipe, Tag
 
 
 @register(Tag)
@@ -14,7 +14,7 @@ class IngredientAdmin(ModelAdmin):
     list_filter = ('name',)
 
 
-@register(Recipes)
+@register(Recipe)
 class RecipeAdmin(ModelAdmin):
     list_display = ('name', 'author')
     list_filter = ('author', 'name', 'tags')
@@ -26,7 +26,7 @@ class RecipeAdmin(ModelAdmin):
     count_favorites.short_description = 'Число добавлений в избранное'
 
 
-@register(Ingredient_amount)
+@register(IngredientAmount)
 class IngredientAmountAdmin(ModelAdmin):
     pass
 
@@ -36,6 +36,6 @@ class FavoriteAdmin(ModelAdmin):
     pass
 
 
-@register(Shopping_cart)
+@register(Cart)
 class CartAdmin(ModelAdmin):
     pass

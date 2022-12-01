@@ -1,6 +1,6 @@
 import pytest
 
-from recipes.models import Recipes
+from recipes.models import Recipe
 
 
 class TestRecipeAPI:
@@ -55,7 +55,7 @@ class TestRecipeAPI:
             f'При GET запросе на {self.taurl_recipegs} должен вернуться словарь'
         )
 
-        assert len(test_data['results']) == Recipes.objects.all().count(), (
+        assert len(test_data['results']) == Recipe.objects.all().count(), (
             'При GET запросе должен возвращаться весь список'
         )
 
