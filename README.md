@@ -8,7 +8,7 @@
 [![docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
 [![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
 [![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
-[![Django-app workflow]((https://github.com/SurfimChilim/foodgram-project-react/actions/workflows/main.yml/badge.svg))]
+[![Django-app workflow](https://github.com/SurfimChilim/foodgram-project-react/actions/workflows/main.yml/badge.svg)]
 
 ## Описание:
 
