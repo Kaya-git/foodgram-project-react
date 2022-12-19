@@ -86,7 +86,7 @@ docker build -t foodgram .
 ```
 - Собираем контейнеры:
 ```
-docker-compose up -d
+docker-compose up -d --build
 ```
 - Сделать миграции, создать суперпользователя и собрать статику:
 ```
@@ -94,19 +94,9 @@ docker-compose exec backend python manage.py makemigrations
 docker-compose exec backend python manage.py migrate
 docker-compose exec backend python manage.py createsuperuser
 docker-compose exec backend python manage.py collectstatic --no-input 
-docker-compose exec backend python manage.py loaddata db.json
-```
+docker-compose exec backend python manage.py load_ingredients <Название файла из директории data>
 
-- Для переноса данных с файла ingredients.json на PostgreSQL выполним несколько команд:
-    ```
-    docker-compose exec backend python manage.py shell 
-    ```
-    ```
-    >>> exec(open("/backend/static/data/filldb.py").read())
-    ```
-    ```
-    docker-compose exec backend
-    ```
+```
 ## Использованные технологии:
 - Python 3.7
 - Django Framework 2.2.16

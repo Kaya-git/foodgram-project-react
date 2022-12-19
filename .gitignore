@@ -26,9 +26,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-./backend/media/
-./.vscode
-.pytest_cache
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -105,7 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-infra/.env
+.env
 .venv
 env/
 venv/
@@ -133,3 +130,9 @@ dmypy.json
 
 # .idea
 .idea
+
+static/
+posts/static/
+media/
+media_value/
+static_value/
