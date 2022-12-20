@@ -17,7 +17,11 @@
 На этом сервисе пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, 
 добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, 
 необходимых для приготовления одного или нескольких выбранных блюд.
+- Проект запущен и доступен по [адресу](http://158.160.15.105/recipes)
 
+## Админ:
+- Username: admin
+- Password: admin
 ## Пользовательские роли
 | Функционал                                                                                                                | Неавторизованные пользователи |  Авторизованные пользователи | Администратор  |
 |:--------------------------------------------------------------------------------------------------------------------------|:---------:|:---------:|:---------:|
@@ -79,19 +83,12 @@ DB_HOST=db
 DB_PORT=5432
 ALLOWED_HOSTS='*'
 ```
-
-- в Docker cоздаем образ :
-
-```
-docker build -t foodgram .
-```
 - Собираем контейнеры:
 ```
 docker-compose up -d --build
 ```
 - Сделать миграции, создать суперпользователя и собрать статику:
 ```
-docker-compose exec backend python manage.py makemigrations
 docker-compose exec backend python manage.py migrate
 docker-compose exec backend python manage.py createsuperuser
 docker-compose exec backend python manage.py collectstatic --no-input 
@@ -100,8 +97,8 @@ docker-compose exec backend python manage.py load_ingredients <Название 
 ```
 ## Использованные технологии:
 - Python 3.7
-- Django Framework 2.2.16
-- Django Rest Framework 3.12.4
+- Django Framework 3.0.5
+- Django Rest Framework 3.11
 - Docker 20.10.17
 - Docker Compose v2.10.2
 - Nginx 1.23.2
