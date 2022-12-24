@@ -135,9 +135,6 @@ class Favorite(models.Model):
                                     name='unique favorite recipe for user')
         ]
 
-    def __str__(self) -> str:
-        return self.recipe
-
 
 class Cart(models.Model):
     user = models.ForeignKey(
@@ -161,6 +158,3 @@ class Cart(models.Model):
             models.UniqueConstraint(fields=['user', 'recipe'],
                                     name='unique cart user')
         ]
-
-    def __str__(self) -> str:
-        return self.recipe
